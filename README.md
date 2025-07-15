@@ -19,6 +19,7 @@ airflow/dags/
 ```
 
 ## Project Architecture & Flow
+![](images/ss_flow.png)
 The pipeline is designed to move data from raw CSV to a structured, query-ready database, with robust validation at each stage. The process is orchestrated using Apache Airflow, with data stored in MySQL and visualized in Metabase. The workflow is divided into two main layers:
 
 - **Bronze Layer:** Raw ingestion of the dataset, minimal transformation, and metadata enrichment.
