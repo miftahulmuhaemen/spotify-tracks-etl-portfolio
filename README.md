@@ -50,22 +50,29 @@ To run this project, the following services and libraries are required (tested o
 - Place the CSV file in the designated directory as referenced by the Airflow DAGs.
 
 ### 2. Bronze Layer: Raw Ingestion
+![](images/ss_csv_to_mysql_etl.png)
 - The Airflow DAG ingests the raw CSV data into a MySQL table (`spotify_tracks`).
 - Metadata columns (e.g., ingestion timestamp, batch identifier) are added.
 - **Step 1: Extraction Validation (Pandas)**
   - After loading the CSV, the pipeline uses pandas to check for nulls in key columns, validate data types, and ensure the integrity of the extracted data before any database operation.
 - **Step 2: Database Validation (Great Expectations)**
   - Once data is loaded into MySQL, the pipeline uses Great Expectations to validate the data directly in the database. Great Expectations is a powerful, open-source data quality tool that allows you to define, document, and test data expectations in a reusable and automated way. It’s especially valuable for portfolio and production projects because it provides clear, human-readable validation results and integrates well with modern data stacks.
+  ![](images/ss_csv_to_mysql_etl_validation_gx_result.png)
 
 ### 3. Silver Layer: Cleansing & Imputation
 - A second Airflow DAG processes the bronze table to create a silver table (`spotify_tracks_silver`).
 - Missing values in numeric columns are imputed with medians; categorical columns use modes. In this project, these statistics are precomputed in Python, but it is equally valid to perform such imputations directly in SQL, which can be more efficient for large datasets or when working entirely within the database environment.
 - Deduplication is performed based on track ID.
 - Additional data validation ensures all required fields are present and within expected ranges.
+![](images/ss_silver_validation_gx.png)
 
 ### 4. Data Exploration (Metabase)
 - The cleansed and validated data in the silver table is ready for analysis and dashboarding in Metabase.
 - Connect Metabase to the MySQL database to begin exploring and visualizing the data.
+
+### 5. Report Visualization on Metabase
+![](images/screencapture-localhost-3000-dashboard-65-spotify-2025-07-16-04_53_12.png)
+![](images/screencapture-localhost-3000-dashboard-65-spotify-2025-07-16-04_53_40.png)
 
 ## Author
 **Miftahul Muhaemen**  
