@@ -1,7 +1,7 @@
 # Spotify Tracks Dataset Analysis
 
 ## Introduction
-This project demonstrates a modern data engineering workflow using the popular Spotify Tracks dataset. The goal is to showcase end-to-end ETL (Extract, Transform, Load) practices, data validation, and analytics readiness using industry-standard tools. The dataset, sourced from Kaggle, offers a rich ground for analysis, featuring a wide range of track attributes and popularity metrics. Its high usability score (100%) and the personal interest in music analytics make it an excellent choice for a portfolio project, even though it consists of a single fact table without dimension tables due to its pre-aggregated nature.
+This project demonstrates a data engineering workflow using the popular Spotify Tracks dataset. The goal is to showcase end-to-end ELT (Extract, Load, Transform) practices, data quality, and analytics readiness. The dataset, sourced from Kaggle, offers a rich ground for analysis, featuring a wide range of track attributes and popularity metrics. 
 
 ## Project Directory Structure
 
@@ -22,10 +22,10 @@ airflow/dags/
 ![](images/ss_flow.png)
 The pipeline is designed to move data from raw CSV to a structured, query-ready database, with robust validation at each stage. The process is orchestrated using Apache Airflow, with data stored in MySQL and visualized in Metabase. The workflow is divided into two main layers:
 
-- **Bronze Layer:** Raw ingestion of the dataset, minimal transformation, and metadata enrichment.
+- **Bronze Layer:** Raw ingestion of the dataset, minimal transformation, metadata enrichment, and twice validation after each action.
 - **Silver Layer:** Cleansing, imputation of missing values, deduplication, and further validation to ensure data quality.
 
-There is no Gold layer in this project, as the dataset is already simple and pre-aggregated, making further aggregation unnecessary.
+While this project use Medallion Architecture, there is no Gold layer in this project, as the dataset is already simple (single fact table without dimension table) and pre-aggregated, making further aggregation unnecessary.
 
 ## Dependencies & Required Services
 To run this project, the following services and libraries are required (tested on Linux):
@@ -33,7 +33,6 @@ To run this project, the following services and libraries are required (tested o
 - **Apache Airflow (Standalone):** 2.10.5
 - **MySQL Database:** (Recommended to run via Docker)
 - **Metabase:** (Recommended to run via Docker)
-- **DBeaver:** (For database exploration during development)
 - **Python Libraries:**
   - apache-airflow 2.10.5
   - apache-airflow-providers-mysql 6.3.0
@@ -42,7 +41,7 @@ To run this project, the following services and libraries are required (tested o
   - numpy 1.26.4
   - pandas 2.1.4
 
-> Note: Users are free to choose their preferred installation methods for Airflow, MySQL, and Metabase. This project assumes a working Linux environment.
+> Note: Users are free to choose their preferred installation methods for Airflow, MySQL, and Metabase. 
 
 ## Step-by-Step Data Pipeline
 
@@ -74,6 +73,11 @@ To run this project, the following services and libraries are required (tested o
 ### 5. Report Visualization on Metabase
 ![](images/screencapture-localhost-3000-dashboard-65-spotify-2025-07-16-04_53_12.png)
 ![](images/screencapture-localhost-3000-dashboard-65-spotify-2025-07-16-04_53_40.png)
+
+## Next
+
+- Simulate stream data and perform batch processing every date at designated time (usually midnight).
+- Detailed answer for each visualizaton done in Metabase.
 
 ## Author
 **Miftahul Muhaemen**  
